@@ -13,5 +13,6 @@ import com.fullstack.springboot.entity.State;
 @RepositoryRestResource
 public interface StateRepository extends JpaRepository<State, Integer> {
 
+	//http://localhost:8080/api/states/search/findByCountryCode?code=US
 	List<State> findByCountryCode(@Param("code") String code);
 }

@@ -13,8 +13,10 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
 
+import com.fullstack.springboot.entity.Country;
 import com.fullstack.springboot.entity.Product;
 import com.fullstack.springboot.entity.ProductCategory;
+import com.fullstack.springboot.entity.State;
 
 @Configuration
 public class RestConfig implements RepositoryRestConfigurer {
@@ -35,20 +37,33 @@ public class RestConfig implements RepositoryRestConfigurer {
 		/**
 		 * Disable method for Product Class: POST , PUT, DELETE
 		 */
-		config.getExposureConfiguration().forDomainType(Product.class)
-		.withItemExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedAction))
-		.withCollectionExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedAction));
+		disableHttpMethods(Product.class, theUnsupportedAction, config);
 		
 		/**
 		 * Disable method for ProductCategory Class: POST , PUT, DELETE
 		 */
-		config.getExposureConfiguration().forDomainType(ProductCategory.class)
-		.withItemExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedAction))
-		.withCollectionExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedAction));
+		disableHttpMethods(ProductCategory.class, theUnsupportedAction, config);
+		
+		/**
+		 * Disable method for ProductCategory Class: POST , PUT, DELETE
+		 */
+		disableHttpMethods(Country.class, theUnsupportedAction, config);
+		
+		/**
+		 * Disable method for ProductCategory Class: POST , PUT, DELETE
+		 */
+		disableHttpMethods(State.class, theUnsupportedAction, config);
 		
 		exposeIds(config);
 		
 	
+	}
+
+
+	private void disableHttpMethods(Class theClass , HttpMethod[] theUnsupportedAction, RepositoryRestConfiguration config) {
+		config.getExposureConfiguration().forDomainType(theClass)
+		.withItemExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedAction))
+		.withCollectionExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedAction));
 	}
 
 
